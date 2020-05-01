@@ -57,7 +57,7 @@ public class ActivityTest {
                 body(bodyStr).
                 when().
                 post(url);
-        
+
                 res.then().log().all().statusCode(200);
 
     }
