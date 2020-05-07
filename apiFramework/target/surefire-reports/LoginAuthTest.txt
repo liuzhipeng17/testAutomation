@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: LoginAuthTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 2.518 s <<< FAILURE! - in LoginAuthTest
+loginAuth[1: entity.TestCase@37ff4054[\r\n  apiName=channelAuth2\r\n  uri=http://192.168.10.197:996/tpf-login/auth/channelAuth\r\n  method=POST\r\n  headers={appId=0, channelId=13}\r\n  body={extension={"SdkLoginDetail":{"playerId":"1234","uid":"456"}}, sign=c3485d65ea9bbbc6346852e5ea81e268}\r\n  validators=[{comparator=equal, expected=123, check=data.extension.channelUid}, {comparator=equal, expected=0, check=meta.errCode}]\r\n]](LoginAuthTest)  Time elapsed: 0.085 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected: "123"
+     but: was "1234"
+	at LoginAuthTest.loginAuth(LoginAuthTest.java:72)
+

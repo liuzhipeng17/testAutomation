@@ -1,0 +1,36 @@
+testCases:
+  - apiName: channelAuth
+    uri: http://192.168.10.197:996/tpf-login/auth/channelAuth
+    method: POST
+    headers:
+      appId: 0
+      channelId: 13
+    body:
+      playerId: "123"
+      uid: "456"
+      Accept-Encoding: gzip, deflate, br
+    validators:
+      - check: data.extension.channelUid
+        comparator: equal
+        expected: "123"
+      - check: meta.errCode
+        comparator: equal
+        expected: "0"
+
+  - apiName: channelAuth2
+    uri: http://192.168.10.197:996/tpf-login/auth/channelAuth
+    method: POST
+    headers:
+      appId: 0
+      channelId: 13
+    body:
+      playerId: "1234"
+      uid: "456"
+      Accept-Encoding: gzip, deflate, br
+    validators:
+      - check: data.extension.channelUid
+        comparator: equal
+        expected: "123"
+      - check: meta.errCode
+        comparator: equal
+        expected: "0"
