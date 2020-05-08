@@ -1,9 +1,13 @@
 package Utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.sun.xml.internal.ws.policy.sourcemodel.AssertionData;
+import entity.TestCase;
 import entity.TestSuite;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +27,7 @@ public class YamlUtils {
 
     public static TestSuite loadYamlWthJackson(String fileName) throws Exception {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        // 怎么获取resource目录的文件
-        String filePath = FileUtils.getFilePath(fileName);
+        String filePath = Thread.currentThread().getContextClassLoader().getResource(fileName).getPath();
         if(filePath.equals("")){
             throw new Exception(String.format("%s not exist", fileName));
         }
@@ -32,10 +35,28 @@ public class YamlUtils {
         //String pathName = TestSuite.class.getClassLoader().getResource(fileName).getPath();
         // 加个判断pathName是否存在
         TestSuite tcs = mapper.readValue(new File(filePath), TestSuite.class);
-        // 将一个java对象convert string
-        //System.out.println(ReflectionToStringBuilder.toString(tcs, ToStringStyle.MULTI_LINE_STYLE));
         return tcs;
+    }
 
+    /**
+     * 读取yaml文件
+     * @param fileName
+     * @return
+     * @throws Exception
+     */
+
+    public static List<TestCase> readFromYaml(String fileName) throws Exception {
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        String filePath = Thread.currentThread().getContextClassLoader().getResource(fileName).getPath();
+        if(filePath.equals("")){
+            throw new Exception(String.format("%s not exist", fileName));
+        }
+
+        List<TestCase> data = mapper.readValue(
+                new File(filePath),
+                new TypeReference<List<TestCase>>() {}
+        );
+        return data;
     }
 
 

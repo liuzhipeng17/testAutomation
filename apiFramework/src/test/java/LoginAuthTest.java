@@ -19,6 +19,7 @@ import org.junit.rules.ErrorCollector;
 import org.junit.runner.RunWith;
 
 import javax.swing.plaf.basic.BasicScrollPaneUI;
+import java.awt.font.GlyphJustificationInfo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,12 +38,12 @@ public class LoginAuthTest {
     public static Object[] yamlDataProviderActivity() throws Exception {
         TestSuite testSuite =  YamlUtils.loadYamlWthJackson(GLOBAL.TEST_CASE_LOGIN);
         List<TestCase> testCases = testSuite.testCases;
+        //List<TestCase>  testCases = YamlUtils.readFromYaml(GLOBAL.TEST_CASE_LOGIN);
         int size = testCases.size();
         Object[] objs = new Object[size];
         for(int i=0; i<size; i++)
         {
             TestCase tc = testCases.get(i);
-            //tc.setHeaders(Activity.setSignatureHeader(tc));
             HashMap<String, Object> body = LoginAuth.constructBody(tc);
             tc.setBody(body);
             objs[i] = tc;
@@ -65,9 +66,6 @@ public class LoginAuthTest {
                  body(JSONObject.toJSONString(tc.getBody())).
                  when().
                  post(tc.getUri()).as(new io.restassured.mapper.TypeRef<Map<String, Object>>(){});
-         // https://github.com/rest-assured/rest-assured/wiki/Usage#example-1---json
-        // 3.30版本的restassured
-        //System.out.println(response);
         List<HashMap<String, Object>> validators = tc.getValidators();
         CustomAssertion.softValidate(response, validators, collector);
 
